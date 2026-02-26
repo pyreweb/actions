@@ -1,0 +1,45 @@
+name: pyreweb/laravel/linter
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - dev
+  pull_request:
+    branches:
+      - main
+      - master
+      - dev
+
+permissions:
+  contents: write
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.5']
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Installation des dépendances
+        run: |
+          composer install
+          npm install
+
+      - name: Vérification du code PHP
+        run: composer lint
+
+      - name: Formatage du code
+        run: npm run format
+
+      - name: Vérification du code
+        run: npm run lint
