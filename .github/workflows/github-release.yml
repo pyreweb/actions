@@ -1,7 +1,7 @@
 name: pyreweb/github/release
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write
