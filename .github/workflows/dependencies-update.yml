@@ -19,9 +19,7 @@ jobs:
       - name: Génération ID unique (Date)
         id: date
         run: |
-          # Crée une variable 'branch_name' avec le format : auto-update-2024-05-20-14-30-45
           echo "BRANCH_NAME=dependencies-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
-          # Crée une variable pour un titre joli avec les secondes
           echo "PRETTY_DATE=$(date +'%d/%m/%Y à %H:%M:%S')" >> $GITHUB_ENV
 
       - name: Configuration de PHP
