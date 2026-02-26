@@ -66,7 +66,6 @@ jobs:
       - name: Tests Frontend (si existants)
         run: npm test --if-present
 
-      # 8. Création de la Pull Request
       - name: Création de la Pull Request automatique
         uses: peter-evans/create-pull-request@v6
         with:
