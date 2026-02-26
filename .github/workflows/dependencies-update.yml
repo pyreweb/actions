@@ -19,10 +19,10 @@ jobs:
       - name: Génération ID unique (Date)
         id: date
         run: |
-          # Crée une variable 'branch_name' avec le format : auto-update-2024-05-20-1430
-          echo "BRANCH_NAME=dependencies-update-$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
-          # Crée une variable pour un titre joli
-          echo "PRETTY_DATE=$(date +'%d/%m/%Y à %H:%M')" >> $GITHUB_ENV
+          # Crée une variable 'branch_name' avec le format : auto-update-2024-05-20-14-30-45
+          echo "BRANCH_NAME=dependencies-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
+          # Crée une variable pour un titre joli avec les secondes
+          echo "PRETTY_DATE=$(date +'%d/%m/%Y à %H:%M:%S')" >> $GITHUB_ENV
 
       - name: Configuration de PHP
         uses: shivammathur/setup-php@v2
@@ -75,11 +75,9 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: GitHub Actions <actions@github.com>
           
-          # Utilisation de la variable d'environnement créée plus haut
           branch: ${{ env.BRANCH_NAME }}
           delete-branch: true
           
-          # J'ai aussi ajouté la date dans le titre pour que tu les distingues facilement dans la liste des PR
           title: "Mise à jour des dépendances - ${{ env.PRETTY_DATE }}"
           
           body: |
