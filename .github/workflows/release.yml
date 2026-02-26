@@ -1,0 +1,80 @@
+name: pyreweb/release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  job:
+    name: Création de la release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configuration de PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, json
+          coverage: none
+
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Création du fichier .env
+        run: cp .env.example .env
+
+      - name: Installation dépendances & Build
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
+          npm ci
+          npm run build
+
+      - name: Génération de la clé d'application
+        run: php artisan key:generate
+
+      - name: Tests de sécurité (Validation avant Release)
+        run: php artisan test
+
+      - name: Calcul du prochain Tag (Logique CalVer)
+        id: calver
+        run: |
+          TODAY=$(date +'%Y.%m.%d')
+          echo "Date prefix: $TODAY"
+          
+          LAST_TAG=$(git tag --list "$TODAY.*" --sort=-v:refname | head -n 1)
+          
+          if [ -z "$LAST_TAG" ]; then
+            NEW_TAG="${TODAY}.01"
+            echo "Premier tag de la journée."
+          else
+            LAST_INDEX=${LAST_TAG##*.}
+            CURRENT_INDEX=$((10#$LAST_INDEX))
+            NEXT_INDEX=$((CURRENT_INDEX + 1))
+            NEW_TAG="${TODAY}.$(printf "%02d" $NEXT_INDEX)"
+            echo "Tag existant trouvé ($LAST_TAG). Incrémentation vers $NEW_TAG"
+          fi
+          
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+          echo "TAG_DATE=$TODAY" >> $GITHUB_ENV
+
+      - name: Création du Tag et de la Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.NEW_TAG }}
+          name: v${{ env.NEW_TAG }}
+          generate_release_notes: true
+          make_latest: true
+          body: |            
+            Version générée automatiquement par GitHub Actions.
+
+            Run ID: ${{ github.run_id }}
