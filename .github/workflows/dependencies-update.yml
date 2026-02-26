@@ -1,4 +1,4 @@
-name: pyreweb/update-dependencies
+name: pyreweb/dependencies/update
 
 on:
   workflow_dispatch:
