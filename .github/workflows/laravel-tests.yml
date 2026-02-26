@@ -1,7 +1,7 @@
 name: pyreweb/laravel/tests
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   job:
