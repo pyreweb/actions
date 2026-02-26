@@ -78,9 +78,10 @@ jobs:
           title: "Mise à jour des dépendances - ${{ env.PRETTY_DATE }}"
           
           body: |
-            Pull Request générée automatiquement par GitHub Actions.
-
-            Run ID: ${{ github.run_id }}
+            Mise à jour automatique des dépendances du projet.
+          
+            `Pull Request générée automatiquement par GitHub Actions.`
+            **Run ID**: ${{ github.run_id }}
           labels: |
             github-action
             dependencies
