@@ -1,4 +1,4 @@
-name: pyreweb/release
+name: pyreweb/github/release
 
 on:
   workflow_dispatch:
