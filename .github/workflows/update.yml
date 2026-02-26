@@ -1,0 +1,91 @@
+name: pyreweb/update-dependencies
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  job:
+    name: Mise à jour des dépendances
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Récupération du dépôt
+        uses: actions/checkout@v4
+
+      - name: Génération ID unique (Date)
+        id: date
+        run: |
+          # Crée une variable 'branch_name' avec le format : auto-update-2024-05-20-1430
+          echo "BRANCH_NAME=dependencies-update-$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
+          # Crée une variable pour un titre joli
+          echo "PRETTY_DATE=$(date +'%d/%m/%Y à %H:%M')" >> $GITHUB_ENV
+
+      - name: Configuration de PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, json
+          coverage: none
+
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Copie du fichier .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Installation dépendances PHP (Composer)
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Installation dépendances JS (NPM)
+        run: |
+          npm ci
+          npm run build
+
+      - name: Génération de la clé d'application
+        run: php artisan key:generate
+
+      - name: Mise à jour des paquets (Composer & NPM)
+        id: update
+        run: |
+          echo "Mise à jour du Backend (Composer)..."
+          composer update --no-interaction
+          
+          echo "Mise à jour du Frontend (NPM)..."
+          npm update
+
+      - name: Tests Unitaires (Pest/PHPUnit)
+        run: php artisan test
+
+      - name: Tests Frontend (si existants)
+        run: npm test --if-present
+
+      # 8. Création de la Pull Request
+      - name: Création de la Pull Request automatique
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: mise à jour des dépendances"
+          committer: GitHub <noreply@github.com>
+          author: GitHub Actions <actions@github.com>
+          
+          # Utilisation de la variable d'environnement créée plus haut
+          branch: ${{ env.BRANCH_NAME }}
+          delete-branch: true
+          
+          # J'ai aussi ajouté la date dans le titre pour que tu les distingues facilement dans la liste des PR
+          title: "Mise à jour des dépendances - ${{ env.PRETTY_DATE }}"
+          
+          body: |
+            Pull Request générée automatiquement par GitHub Actions.
+
+            Run ID: ${{ github.run_id }}
+          labels: |
+            github-action
+            dependencies
