@@ -74,7 +74,8 @@ jobs:
           name: v${{ env.NEW_TAG }}
           generate_release_notes: true
           make_latest: true
-          body: |            
-            Version générée automatiquement par GitHub Actions.
-
-            Run ID: ${{ github.run_id }}
+          body: |     
+            Release automatique du projet.
+          
+            `Version générée automatiquement par GitHub Actions.`
+            **Run ID**: ${{ github.run_id }}
