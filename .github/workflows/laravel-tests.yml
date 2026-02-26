@@ -1,0 +1,44 @@
+name: pyreweb/laravel/tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.5']
+
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v6
+
+      - name: Configuration de PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Configuration de Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Installation des dépendances
+        run: |
+          composer install
+          npm install
+
+      - name: Copie du fichier d'environnement
+        run: cp .env.example .env
+
+      - name: Génération de la clé d'application
+        run: php artisan key:generate
+
+      - name: Compilation des assets
+        run: npm run build
+
+      - name: Tests unitaires
+        run: ./vendor/bin/pest
