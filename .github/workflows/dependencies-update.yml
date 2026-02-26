@@ -1,7 +1,7 @@
 name: pyreweb/dependencies/update
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write
