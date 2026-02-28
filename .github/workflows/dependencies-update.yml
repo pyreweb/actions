@@ -8,15 +8,15 @@ permissions:
   pull-requests: write
 
 jobs:
-  job:
+  update:
     name: Mise à jour des dépendances
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Récupération du dépôt
         uses: actions/checkout@v4
 
-      - name: Génération ID unique (Date)
+      - name: Génération ID unique
         id: date
         run: |
           echo "BRANCH_NAME=dependencies-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
@@ -27,6 +27,7 @@ jobs:
         with:
           php-version: '8.5'
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, json
+          tools: composer:v2
           coverage: none
 
       - name: Configuration de Node.js
@@ -35,33 +36,45 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
-      - name: Copie du fichier .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Récupération du dossier de cache Composer
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Installation dépendances PHP (Composer)
-        run: composer install --prefer-dist --no-interaction
+      - name: Mise en cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
-      - name: Installation dépendances JS (NPM)
+      - name: Création du fichier .env
+        run: cp .env.example .env
+
+      - name: Installation initiale des dépendances
         run: |
+          composer install --prefer-dist --no-interaction --no-progress
           npm ci
-          npm run build
+
+      - name: Mise à jour des dépendances
+        id: update
+        run: |
+          composer update --no-interaction --no-progress
+          npm update
+
+      - name: Build Frontend
+        run: npm run build
 
       - name: Génération de la clé d'application
         run: php artisan key:generate
 
-      - name: Mise à jour des paquets (Composer & NPM)
-        id: update
-        run: |
-          echo "Mise à jour du Backend (Composer)..."
-          composer update --no-interaction
-          
-          echo "Mise à jour du Frontend (NPM)..."
-          npm update
-
-      - name: Tests Unitaires (Pest/PHPUnit)
+      - name: Tests Backend
         run: php artisan test
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
 
-      - name: Tests Frontend (si existants)
+      - name: Tests Frontend
         run: npm test --if-present
 
       - name: Création de la Pull Request automatique
@@ -71,15 +84,12 @@ jobs:
           commit-message: "chore: mise à jour des dépendances"
           committer: GitHub <noreply@github.com>
           author: GitHub Actions <actions@github.com>
-          
           branch: ${{ env.BRANCH_NAME }}
           delete-branch: true
-          
           title: "Mise à jour des dépendances - ${{ env.PRETTY_DATE }}"
-          
           body: |
             Mise à jour automatique des dépendances du projet.
-          
+            
             `Pull Request générée automatiquement par GitHub Actions.`
             **Run ID**: ${{ github.run_id }}
           labels: |
