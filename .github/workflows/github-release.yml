@@ -2,14 +2,19 @@ name: pyreweb/github/release
 
 on:
   workflow_call:
+    outputs:
+      version:
+        value: ${{ jobs.release.outputs.version }}
 
 permissions:
   contents: write
 
 jobs:
-  job:
+  release:
     name: Création de la release
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.calver.outputs.NEW_TAG }}
 
     steps:
       - name: Récupération du code
@@ -22,6 +27,7 @@ jobs:
         with:
           php-version: '8.5'
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, json
+          tools: composer:v2
           coverage: none
 
       - name: Configuration de Node.js
@@ -29,6 +35,18 @@ jobs:
         with:
           node-version: '24'
           cache: 'npm'
+
+      - name: Récupération du dossier de cache Composer
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Mise en cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: Création du fichier .env
         run: cp .env.example .env
@@ -42,30 +60,30 @@ jobs:
       - name: Génération de la clé d'application
         run: php artisan key:generate
 
-      - name: Tests de sécurité (Validation avant Release)
+      - name: Tests de sécurité
         run: php artisan test
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
 
-      - name: Calcul du prochain Tag (Logique CalVer)
+      - name: Calcul du prochain Tag
         id: calver
         run: |
           TODAY=$(date +'%Y.%m.%d')
-          echo "Date prefix: $TODAY"
-          
           LAST_TAG=$(git tag --list "$TODAY.*" --sort=-v:refname | head -n 1)
           
           if [ -z "$LAST_TAG" ]; then
             NEW_TAG="${TODAY}.01"
-            echo "Premier tag de la journée."
           else
             LAST_INDEX=${LAST_TAG##*.}
-            CURRENT_INDEX=$((10#$LAST_INDEX))
-            NEXT_INDEX=$((CURRENT_INDEX + 1))
-            NEW_TAG="${TODAY}.$(printf "%02d" $NEXT_INDEX)"
-            echo "Tag existant trouvé ($LAST_TAG). Incrémentation vers $NEW_TAG"
+            NEW_TAG="${TODAY}.$(printf "%02d" $((10#$LAST_INDEX + 1)))"
           fi
           
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
-          echo "TAG_DATE=$TODAY" >> $GITHUB_ENV
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Création de l'archive de release
+        run: zip -rq release-${{ env.NEW_TAG }}.zip . -x "*.git*" "node_modules/*" "tests/*"
 
       - name: Création du Tag et de la Release
         uses: softprops/action-gh-release@v2
@@ -74,8 +92,9 @@ jobs:
           name: v${{ env.NEW_TAG }}
           generate_release_notes: true
           make_latest: true
-          body: |     
+          files: release-${{ env.NEW_TAG }}.zip
+          body: |
             Release automatique du projet.
-          
+            
             `Version générée automatiquement par GitHub Actions.`
             **Run ID**: ${{ github.run_id }}
