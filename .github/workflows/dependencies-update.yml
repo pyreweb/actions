@@ -88,9 +88,11 @@ jobs:
           delete-branch: true
           title: "Mise à jour des dépendances - ${{ env.PRETTY_DATE }}"
           body: |
-            Mise à jour automatique des dépendances du projet.
-            
+            Mise à jour automatique des dépendances.
+
+            ---
             `Pull Request générée automatiquement par GitHub Actions.`
+            
             **Run ID**: ${{ github.run_id }}
           labels: |
             github-action
