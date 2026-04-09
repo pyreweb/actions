@@ -1,0 +1,9 @@
+name: Composer Install
+description: Install Composer dependencies
+
+runs:
+  using: composite
+  steps:
+    - name: Install dependencies
+      shell: bash
+      run: composer install --no-interaction --prefer-dist --optimize-autoloader
