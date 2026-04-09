@@ -1,0 +1,9 @@
+name: Composer Test
+description: Run the test suite via Composer
+
+runs:
+  using: composite
+  steps:
+    - name: Run tests
+      shell: bash
+      run: composer test
