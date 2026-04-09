@@ -10,6 +10,7 @@ Ce repository contient les actions GitHub qui sont utilisés dans les autres rep
 - [Création de release GitHub](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/github-release.yml)
 - [Vérification linter dans Laravel](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/laravel-lint.yml)
 - [Vérification des tests dans Laravel](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/laravel-tests.yml)
+- [Intégration continue pour nos projets PHP](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/php-ci.yml)
 
 ## Notes
 
