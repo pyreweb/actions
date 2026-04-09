@@ -1,0 +1,16 @@
+name: Setup PHP
+description: Setup PHP with the given version
+
+inputs:
+  php-version:
+    description: PHP version to setup
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup PHP ${{ inputs.php-version }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php-version }}
+        coverage: none
