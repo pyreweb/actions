@@ -1,5 +1,3 @@
-# .github/workflows/php-ci.yml
-
 name: PHP-CI
 
 on:
@@ -21,16 +19,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: ./.github/actions/checkout
 
       - name: Setup PHP ${{ matrix.php }}
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup/php
         with:
           php-version: ${{ matrix.php }}
-          coverage: none
 
       - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        uses: ./.github/actions/composer/install
 
       - name: Run tests
-        run: composer test
+        uses: ./.github/actions/composer/test
