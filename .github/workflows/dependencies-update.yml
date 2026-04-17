@@ -53,13 +53,13 @@ jobs:
 
       - name: Initial setup of dependencies
         run: |
-          composer install --prefer-dist --no-interaction --no-progress
+          composer install
           npm ci
 
       - name: Updating dependencies
         id: update
         run: |
-          composer update --no-interaction --no-progress
+          composer update
           npm update
 
       - name: Frontend build
