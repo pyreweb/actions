@@ -4,7 +4,7 @@
 
 Ce repository contient les actions GitHub qui sont utilisés dans les autres repository de l'organisation.
 
-## Liste des actions disponibles
+## Liste des workflows disponibles
 
 - [Mise à jour des dépendances](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/dependencies-update.yml)
 - [Création de release GitHub](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/github-release.yml)
