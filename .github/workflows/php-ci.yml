@@ -1,11 +1,11 @@
-name: PHP-CI
+name: Intégration continue de PHP
 
 on:
   workflow_call:
 
 jobs:
   tests:
-    name: PHP ${{ matrix.php }}
+    name: Intégration continue de PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -15,16 +15,12 @@ jobs:
           - '8.4'
 
     steps:
-      - name: Checkout
-        uses: pyreweb/github_actions/.github/actions/checkout@main
+      - uses: pyreweb/github_actions/.github/actions/checkout@main
 
-      - name: Setup PHP ${{ matrix.php }}
-        uses: pyreweb/github_actions/.github/actions/setup/php@main
+      - uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Install dependencies
-        uses: pyreweb/github_actions/.github/actions/composer/install@main
+      - uses: pyreweb/github_actions/.github/actions/composer/install@main
 
-      - name: Run tests
-        uses: pyreweb/github_actions/.github/actions/composer/test@main
+      - uses: pyreweb/github_actions/.github/actions/composer/test@main
