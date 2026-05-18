@@ -1,0 +1,9 @@
+name: Mise à jour des dépendances NPM
+description: Mise à jour des dépendances NPM
+
+runs:
+  using: composite
+  steps:
+    - name: Exécution du processus
+      shell: bash
+      run: npm update
