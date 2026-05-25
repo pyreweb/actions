@@ -1,11 +1,11 @@
-name: Intégration continue de PHP
+name: PHP CI
 
 on:
   workflow_call:
 
 jobs:
   tests:
-    name: Intégration continue de PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php }} CI
     runs-on: ubuntu-latest
 
     strategy:
