@@ -16,21 +16,21 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Setup PHP
+      - name: Configurate PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
 
-      - name: Installation des dépendances
+      - name: Install dependencies
         run: |
           composer install
           npm install
 
-      - name: Vérification du code PHP
+      - name: Run composer lint
         run: composer lint
 
-      - name: Formatage du code
+      - name: Run npm format
         run: npm run format
 
-      - name: Vérification du code
+      - name: Run npm lint
         run: npm run lint
