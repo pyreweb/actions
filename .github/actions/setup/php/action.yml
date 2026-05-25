@@ -1,15 +1,15 @@
-name: Configuration de PHP
-description: Configuration de PHP
+name: Setup PHP
+description: Setup PHP
 
 inputs:
   php-version:
-    description: Version de PHP à configurer
+    description: PHP version
     required: true
 
 runs:
   using: composite
   steps:
-    - name: Configuration de PHP ${{ inputs.php-version }}
+    - name: Setup PHP ${{ inputs.php-version }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ inputs.php-version }}
