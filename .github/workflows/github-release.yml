@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   release:
-    name: Création de la release
+    name: Create the release
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.calver.outputs.NEW_TAG }}
@@ -23,25 +23,25 @@ jobs:
           - '8.5'
 
     steps:
-      - name: Consultation du répertoire
+      - name: Read the repository
         uses: pyreweb/github_actions/.github/actions/checkout@main
 
-      - name: Condifuration de PHP ${{ matrix.php }}
+      - name: Configurate PHP ${{ matrix.php }}
         uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Configuration de Node.js
+      - name: Configurate Node
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
 
-      - name: Récupération du dossier de cache Composer
+      - name: Read cache composer
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Mise en cache Composer
+      - name: Create cache composer
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -49,25 +49,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Création du fichier .env
+      - name: Create .env
         run: cp .env.example .env
 
-      - name: Installation dépendances & compilation
+      - name: Install dependencies
         run: |
           composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
           npm ci
           npm run build
 
-      - name: Génération de la clé d'application
+      - name: Generate the key
         run: php artisan key:generate
 
-      - name: Tests de sécurité
+      - name: Launch tests
         run: php artisan test
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
 
-      - name: Calcul du prochain Tag
+      - name: Calcul tag
         id: calver
         run: |
           TODAY=$(date +'%Y.%m.%d')
@@ -83,10 +83,10 @@ jobs:
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
 
-      - name: Création de l'archive de release
+      - name: Create archive
         run: zip -rq release-${{ env.NEW_TAG }}.zip . -x "*.git*" "node_modules/*" "tests/*"
 
-      - name: Création du Tag et de la Release
+      - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.NEW_TAG }}
@@ -95,5 +95,4 @@ jobs:
           make_latest: true
           files: release-${{ env.NEW_TAG }}.zip
           body: |
-            `Version générée automatiquement par GitHub Actions.`
-            **Numéro de série**: ${{ github.run_id }}
+            **ID**: ${{ github.run_id }}
