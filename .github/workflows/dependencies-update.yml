@@ -1,4 +1,4 @@
-name: Mise à jour des dépendances
+name: Updating dependencies
 
 on:
   workflow_call:
@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   update:
-    name: Mise à jour des dépendances
+    name: Updating dependencies
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,31 +19,31 @@ jobs:
           - '8.5'
 
     steps:
-      - name: Consultation du répertoire
+      - name: Browsing the directory
         uses: pyreweb/github_actions/.github/actions/checkout@main
 
-      - name: Génération de l'identifiant unique
+      - name: Generation of the unique identifier
         id: date
         run: |
-          echo "BRANCH_NAME=actions/chore-dependencies-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
+          echo "BRANCH_NAME=actions/chore-deps-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
           echo "PRETTY_DATE=$(date +'%d/%m/%Y à %H:%M:%S')" >> $GITHUB_ENV
 
-      - name: Configuration de PHP ${{ matrix.php }}
+      - name: PHP ${{ matrix.php }} Configuration
         uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Configuration de Node.js
+      - name: Configuring Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
 
-      - name: Restauration du répertoire de cache de Composer
+      - name: Restoring the Composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Mise en cache de Composer
+      - name: Composer Caching
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -51,50 +51,49 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Création du fichier .env
+      - name: Creating the .env file
         run: cp .env.example .env
 
-      - name: Configuration initiale des dépendances
+      - name: Initial configuration of dependencies
         run: |
           composer install
           npm ci
 
-      - name: Mise à jour des dépendances
+      - name: Updating dependencies
         id: update
         run: |
           composer update
           npm update
 
-      - name: Compilation du frontend
+      - name: Compiling the frontend
         run: npm run build
 
-      - name: Génération de la clé d'application
+      - name: Generating the application key
         run: php artisan key:generate
 
-      - name: Tests du backend
+      - name: Backend testing
         run: php artisan test
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
 
-      - name: Tests de l'interface utilisateur
+      - name: User Interface Testing
         run: npm test --if-present
 
-      - name: Créer une pull request automatique
+      - name: Create a pull request 
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore(deps): mise à jour des dépendances"
+          commit-message: "chore(deps): update"
           committer: GitHub <noreply@github.com>
           author: GitHub Actions <actions@github.com>
           branch: ${{ env.BRANCH_NAME }}
           delete-branch: true
-          title: "Mise à jour des dépendances - ${{ env.PRETTY_DATE }}"
+          title: "[chore/deps] Update - ${{ env.PRETTY_DATE }}"
           body: |
-            `Pull request générée automatiquement par GitHub Actions.`
-            
-            **Numéro de série**: ${{ github.run_id }}
+            **ID**: ${{ github.run_id }}
           labels: |
-            chore
-            chore(deps)
             action
+            chore
+            dependencies
+            deps
