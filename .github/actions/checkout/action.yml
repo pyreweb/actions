@@ -1,8 +1,8 @@
-name: Consultation du répertoire
-description: Consultation du répertoire
+name: Checkout
+description: Checkout
 
 runs:
   using: composite
   steps:
-    - name: Consultation du répertoire
+    - name: Checkout
       uses: actions/checkout@v6
