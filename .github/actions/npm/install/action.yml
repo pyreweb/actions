@@ -1,9 +1,9 @@
-name: Installation des dépendances NPM
-description: Installation des dépendances NPM
+name: NPM install
+description: NPM install
 
 runs:
   using: composite
   steps:
-    - name: Installation des dépendances
+    - name: NPM install
       shell: bash
       run: npm install
