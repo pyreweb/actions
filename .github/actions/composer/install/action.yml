@@ -1,9 +1,9 @@
-name: Installation des dépendances Composer
-description: Installation des dépendances Composer
+name: Composer install
+description: Composer install
 
 runs:
   using: composite
   steps:
-    - name: Installation des dépendances
+    - name: Composer install
       shell: bash
       run: composer install --no-interaction --prefer-dist --optimize-autoloader
