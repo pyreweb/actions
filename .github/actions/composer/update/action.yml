@@ -1,9 +1,9 @@
-name: Mise à jour des dépendances Composer
-description: Mise à jour des dépendances Composer
+name: Composer update
+description: Composer update
 
 runs:
   using: composite
   steps:
-    - name: Mise à jour des dépendances
+    - name: Composer update
       shell: bash
       run: composer update --no-interaction --prefer-dist --optimize-autoloader
