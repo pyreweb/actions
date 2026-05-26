@@ -1,0 +1,9 @@
+name: NPM Format
+description: NPM Format
+
+runs:
+  using: composite
+  steps:
+    - name: Run the command
+      shell: bash
+      run: npm run format
