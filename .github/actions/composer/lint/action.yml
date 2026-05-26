@@ -1,0 +1,9 @@
+name: Composer Lint
+description: Composer Lint
+
+runs:
+  using: composite
+  steps:
+    - name: Run the command
+      shell: bash
+      run: composer lint
