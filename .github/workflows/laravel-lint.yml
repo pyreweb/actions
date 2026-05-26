@@ -14,23 +14,20 @@ jobs:
         php-version: ['8.4', '8.5']
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: pyreweb/github_actions/.github/actions/checkout@main
 
-      - name: Configurate PHP
-        uses: shivammathur/setup-php@v2
+      - uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php-version }}
 
-      - name: Install dependencies
-        run: |
-          composer install
-          npm install
+      - uses: pyreweb/github_actions/.github/actions/setup/node@main
 
-      - name: Run composer lint
-        run: composer lint
+      - uses: pyreweb/github_actions/.github/actions/composer/install@main
 
-      - name: Run npm format
-        run: npm run format
+      - uses: pyreweb/github_actions/.github/actions/npm/install@main
 
-      - name: Run npm lint
-        run: npm run lint
+      - uses: pyreweb/github_actions/.github/actions/composer/lint@main
+
+      - uses: pyreweb/github_actions/.github/actions/npm/format@main
+
+      - uses: pyreweb/github_actions/.github/actions/npm/lint@main
