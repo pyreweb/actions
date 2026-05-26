@@ -5,6 +5,9 @@ inputs:
   github-token:
     description: GitHub Token
     required: true
+  github-run-id:
+    description: GitHub Run ID
+    required: true
 
 runs:
   using: composite
@@ -20,7 +23,7 @@ runs:
         delete-branch: true
         title: "[Chore/Deps] Update"
         body: |
-          **ID**: ${{ github.run_id }}
+          **ID**: ${{ inputs.github-run-id }}
         labels: |
           action
           chore
