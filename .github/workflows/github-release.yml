@@ -24,14 +24,14 @@ jobs:
 
     steps:
       - name: Read the repository
-        uses: pyreweb/github_actions/.github/actions/checkout@main
+        uses: pyreweb/actions/.github/actions/checkout@main
 
       - name: Configurate PHP ${{ matrix.php }}
-        uses: pyreweb/github_actions/.github/actions/setup/php@main
+        uses: pyreweb/actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php }}
 
-      - uses: pyreweb/github_actions/.github/actions/setup/node@main
+      - uses: pyreweb/actions/.github/actions/setup/node@main
 
       - name: Read cache composer
         id: composer-cache
@@ -48,11 +48,11 @@ jobs:
       - name: Create .env
         run: cp .env.example .env
 
-      - uses: pyreweb/github_actions/.github/actions/composer/install@main
+      - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/github_actions/.github/actions/npm/ci@main
+      - uses: pyreweb/actions/.github/actions/npm/ci@main
 
-      - uses: pyreweb/github_actions/.github/actions/npm/build@main
+      - uses: pyreweb/actions/.github/actions/npm/build@main
 
       - name: Generate the key
         run: php artisan key:generate
