@@ -5,13 +5,13 @@ on:
 
 jobs:
   tests:
-    name: PHP ${{ matrix.php }} CI
+    name: PHP ${{ matrix.php-version }} CI
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        php:
+        php-version:
           - '8.4'
 
     steps:
@@ -19,7 +19,7 @@ jobs:
 
       - uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
-          php-version: ${{ matrix.php }}
+          php-version: ${{ matrix.php-version }}
 
       - uses: pyreweb/github_actions/.github/actions/composer/install@main
 
