@@ -31,11 +31,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Configurate Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
+      - uses: pyreweb/github_actions/.github/actions/setup/node@main
 
       - name: Read cache composer
         id: composer-cache
@@ -52,11 +48,11 @@ jobs:
       - name: Create .env
         run: cp .env.example .env
 
-      - name: Install dependencies
-        run: |
-          composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
-          npm ci
-          npm run build
+      - uses: pyreweb/github_actions/.github/actions/composer/install@main
+
+      - uses: pyreweb/github_actions/.github/actions/npm/ci@main
+
+      - uses: pyreweb/github_actions/.github/actions/npm/build@main
 
       - name: Generate the key
         run: php artisan key:generate
