@@ -1,0 +1,9 @@
+name: NPM ci
+description: NPM ci
+
+runs:
+  using: composite
+  steps:
+    - name: Run the command
+      shell: bash
+      run: npm ci
