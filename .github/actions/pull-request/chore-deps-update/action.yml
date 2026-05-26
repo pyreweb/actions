@@ -1,0 +1,28 @@
+name: Chore Deps Update
+description: Chore Deps Update
+
+inputs:
+  github-token:
+    description: GitHub Token
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Creation of the pull request
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ inputs.github-token }}
+        commit-message: "chore(deps): update"
+        committer: GitHub <noreply@github.com>
+        author: GitHub Actions <actions@github.com>
+        branch: github-actions/chore-deps-update
+        delete-branch: true
+        title: "[Chore/Deps] Update"
+        body: |
+          **ID**: ${{ github.run_id }}
+        labels: |
+          action
+          chore
+          dependencies
+          deps
