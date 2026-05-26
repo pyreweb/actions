@@ -21,21 +21,12 @@ jobs:
 
     steps:
       - uses: pyreweb/github_actions/.github/actions/checkout@main
-
-      - name: Generation of the unique identifier
-        id: date
-        run: |
-          echo "BRANCH_NAME=actions/chore-deps-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
-
+      
       - uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Configuring Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
+      - uses: pyreweb/github_actions/.github/actions/setup/node@main
 
       - name: Restoring the Composer cache directory
         id: composer-cache
@@ -52,19 +43,15 @@ jobs:
       - name: Creating the .env file
         run: cp .env.example .env
 
-      - name: Initial configuration of dependencies
-        run: |
-          composer install
-          npm ci
+      - uses: pyreweb/github_actions/.github/actions/composer/install@main
 
-      - name: Updating dependencies
-        id: update
-        run: |
-          composer update
-          npm update
+      - uses: pyreweb/github_actions/.github/actions/npm/ci@main
 
-      - name: Compiling the frontend
-        run: npm run build
+      - uses: pyreweb/github_actions/.github/actions/composer/update@main
+
+      - uses: pyreweb/github_actions/.github/actions/npm/update@main
+
+      - uses: pyreweb/github_actions/.github/actions/npm/build@main
 
       - name: Generating the application key
         run: php artisan key:generate
@@ -75,23 +62,9 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
 
-      - name: User Interface Testing
-        run: npm test --if-present
+      - uses: pyreweb/github_actions/.github/actions/npm/test@main
 
-      - name: Create a pull request 
-        uses: peter-evans/create-pull-request@v7
+      - uses: pyreweb/github_actions/.github/actions/pull-request/chore-deps-update@main
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore(deps): update"
-          committer: GitHub <noreply@github.com>
-          author: GitHub Actions <actions@github.com>
-          branch: ${{ env.BRANCH_NAME }}
-          delete-branch: true
-          title: "[Chore/Deps] Update"
-          body: |
-            **ID**: ${{ github.run_id }}
-          labels: |
-            action
-            chore
-            dependencies
-            deps
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-run-id: ${{ github.run_id }}
