@@ -19,14 +19,14 @@ jobs:
           - '8.5'
 
     steps:
-      - name: Browsing the directory
+      - name: Checkout
         uses: pyreweb/github_actions/.github/actions/checkout@main
 
       - name: Generation of the unique identifier
         id: date
         run: |
           echo "BRANCH_NAME=actions/chore-deps-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
-          echo "PRETTY_DATE=$(date +'%d/%m/%Y à %H:%M:%S')" >> $GITHUB_ENV
+          echo "PRETTY_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
 
       - name: PHP ${{ matrix.php }} Configuration
         uses: pyreweb/github_actions/.github/actions/setup/php@main
