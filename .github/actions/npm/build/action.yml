@@ -1,0 +1,9 @@
+name: NPM build
+description: NPM build
+
+runs:
+  using: composite
+  steps:
+    - name: Launch the build
+      shell: bash
+      run: npm run build
