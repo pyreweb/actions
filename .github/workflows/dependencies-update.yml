@@ -20,13 +20,13 @@ jobs:
           - '8.5'
 
     steps:
-      - uses: pyreweb/github_actions/.github/actions/checkout@main
+      - uses: pyreweb/actions/.github/actions/checkout@main
       
-      - uses: pyreweb/github_actions/.github/actions/setup/php@main
+      - uses: pyreweb/actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php }}
 
-      - uses: pyreweb/github_actions/.github/actions/setup/node@main
+      - uses: pyreweb/actions/.github/actions/setup/node@main
 
       - name: Restoring the Composer cache directory
         id: composer-cache
@@ -43,15 +43,15 @@ jobs:
       - name: Creating the .env file
         run: cp .env.example .env
 
-      - uses: pyreweb/github_actions/.github/actions/composer/install@main
+      - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/github_actions/.github/actions/npm/ci@main
+      - uses: pyreweb/actions/.github/actions/npm/ci@main
 
-      - uses: pyreweb/github_actions/.github/actions/composer/update@main
+      - uses: pyreweb/actions/.github/actions/composer/update@main
 
-      - uses: pyreweb/github_actions/.github/actions/npm/update@main
+      - uses: pyreweb/actions/.github/actions/npm/update@main
 
-      - uses: pyreweb/github_actions/.github/actions/npm/build@main
+      - uses: pyreweb/actions/.github/actions/npm/build@main
 
       - name: Generating the application key
         run: php artisan key:generate
@@ -62,9 +62,9 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
 
-      - uses: pyreweb/github_actions/.github/actions/npm/test@main
+      - uses: pyreweb/actions/.github/actions/npm/test@main
 
-      - uses: pyreweb/github_actions/.github/actions/pull-request/chore-deps-update@main
+      - uses: pyreweb/actions/.github/actions/pull-request/chore-deps-update@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-run-id: ${{ github.run_id }}
