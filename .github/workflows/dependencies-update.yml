@@ -1,4 +1,5 @@
-name: Updating dependencies
+name: Update dependencies
+description: NPM + Composer
 
 on:
   workflow_call:
@@ -9,7 +10,7 @@ permissions:
 
 jobs:
   update:
-    name: Updating dependencies
+    name: Update dependencies
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,17 +20,14 @@ jobs:
           - '8.5'
 
     steps:
-      - name: Checkout
-        uses: pyreweb/github_actions/.github/actions/checkout@main
+      - uses: pyreweb/github_actions/.github/actions/checkout@main
 
       - name: Generation of the unique identifier
         id: date
         run: |
           echo "BRANCH_NAME=actions/chore-deps-update-$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
-          echo "PRETTY_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
 
-      - name: PHP ${{ matrix.php }} Configuration
-        uses: pyreweb/github_actions/.github/actions/setup/php@main
+      - uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php }}
 
@@ -89,7 +87,7 @@ jobs:
           author: GitHub Actions <actions@github.com>
           branch: ${{ env.BRANCH_NAME }}
           delete-branch: true
-          title: "[chore/deps] Update - ${{ env.PRETTY_DATE }}"
+          title: "[Chore/Deps] Update"
           body: |
             **ID**: ${{ github.run_id }}
           labels: |
