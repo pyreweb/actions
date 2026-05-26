@@ -15,12 +15,12 @@ jobs:
           - '8.4'
 
     steps:
-      - uses: pyreweb/github_actions/.github/actions/checkout@main
+      - uses: pyreweb/actions/.github/actions/checkout@main
 
-      - uses: pyreweb/github_actions/.github/actions/setup/php@main
+      - uses: pyreweb/actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php-version }}
 
-      - uses: pyreweb/github_actions/.github/actions/composer/install@main
+      - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/github_actions/.github/actions/composer/test@main
+      - uses: pyreweb/actions/.github/actions/composer/test@main
