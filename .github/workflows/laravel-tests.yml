@@ -11,34 +11,25 @@ jobs:
         php-version: ['8.4', '8.5']
 
     steps:
-      - name: Read repository
-        uses: actions/checkout@v6
+      - uses: pyreweb/github_actions/.github/actions/checkout@main
 
-      - name: Configurate PHP
-        uses: shivammathur/setup-php@v2
+      - uses: pyreweb/github_actions/.github/actions/setup/php@main
         with:
           php-version: ${{ matrix.php-version }}
-          tools: composer:v2
-          coverage: xdebug
 
-      - name: Configurate Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
+      - uses: pyreweb/github_actions/.github/actions/setup/node@main
 
-      - name: Install dependencies
-        run: |
-          composer install
-          npm install
+      - uses: pyreweb/github_actions/.github/actions/composer/install@main
 
+      - uses: pyreweb/github_actions/.github/actions/npm/install@main
+      
       - name: Copy .env
         run: cp .env.example .env
 
       - name: Generate key
         run: php artisan key:generate
 
-      - name: Run npm build
-        run: npm run build
+      - uses: pyreweb/github_actions/.github/actions/npm/build@main
 
       - name: Run tests
         run: ./vendor/bin/pest
