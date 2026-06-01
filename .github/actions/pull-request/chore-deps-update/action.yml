@@ -16,16 +16,17 @@ runs:
       uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ inputs.github-token }}
-        commit-message: "chore(deps): update"
+        commit-message: "update: `dependencies`"
         committer: GitHub <noreply@github.com>
         author: GitHub Actions <actions@github.com>
-        branch: github-actions/chore-deps-update
+        branch: github-action/update-dependencies
         delete-branch: true
-        title: "[Chore/Deps] Update"
+        title: "Update dependencies (`composer` & `npm`)"
         body: |
           **ID**: ${{ inputs.github-run-id }}
         labels: |
-          action
-          chore
-          dependencies
-          deps
+          github-action
+          update
+          dependencie
+          composer
+          npm
