@@ -28,9 +28,6 @@ jobs:
 
       - uses: pyreweb/actions/.github/actions/setup/node@main
 
-      - name: Clear npm cache
-        run: npm cache clean --force
-
       - name: Restoring the Composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
