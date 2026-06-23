@@ -5,8 +5,8 @@ name: pyreweb/action
 
 on:
   schedule:
-    # Se lance tous les jours à 6h, 12h et 18h (UTC)
-    - cron: '0 6,12,18 * * *'
+    # Se lance tous les jours à 6h, 12h et 18h (UTC+2/Paris)
+    - cron: '0 4,10,16 * * *'
   workflow_dispatch:
 
 permissions:
