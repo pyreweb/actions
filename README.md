@@ -1,7 +1,5 @@
 # pyreweb/actions
 
-## Concept
-
 Ce repository contient les actions GitHub qui sont utilisés dans les autres repository de l'organisation.
 
 ## Liste des workflows disponibles
