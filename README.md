@@ -1,4 +1,4 @@
-# pyreweb/github_actions
+# pyreweb/actions
 
 ## Concept
 
@@ -6,11 +6,11 @@ Ce repository contient les actions GitHub qui sont utilisés dans les autres rep
 
 ## Liste des workflows disponibles
 
-- [Mise à jour des dépendances](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/dependencies-update.yml)
-- [Création de release GitHub](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/github-release.yml)
-- [Vérification linter dans Laravel](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/laravel-lint.yml)
-- [Vérification des tests dans Laravel](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/laravel-tests.yml)
-- [Intégration continue pour nos projets PHP](https://github.com/pyreweb/github_actions/blob/main/.github/workflows/php-ci.yml)
+- [Mise à jour des dépendances](https://github.com/pyreweb/actions/blob/main/.github/workflows/dependencies-update.yml)
+- [Création de release GitHub](https://github.com/pyreweb/actions/blob/main/.github/workflows/github-release.yml)
+- [Vérification linter dans Laravel](https://github.com/pyreweb/actions/blob/main/.github/workflows/laravel-lint.yml)
+- [Vérification des tests dans Laravel](https://github.com/pyreweb/actions/blob/main/.github/workflows/laravel-tests.yml)
+- [Intégration continue pour nos projets PHP](https://github.com/pyreweb/actions/blob/main/.github/workflows/php-ci.yml)
 
 ## Notes
 
