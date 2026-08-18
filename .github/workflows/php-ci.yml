@@ -3,14 +3,14 @@ name: PHP CI
 on:
   workflow_call:
     inputs:
-      php-version:
+      version:
         description: PHP Version
         required: true
         type: string
 
 jobs:
   tests:
-    name: PHP ${{ inputs.php-version }} CI
+    name: PHP ${{ inputs.version }} CI
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
 
       - uses: pyreweb/actions/.github/actions/setup/php@main
         with:
-          php-version: ${{ inputs.php-version }}
+          php-version: ${{ inputs.version }}
 
       - uses: pyreweb/actions/.github/actions/composer/install@main
 
