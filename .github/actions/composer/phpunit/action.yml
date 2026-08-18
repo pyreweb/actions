@@ -1,9 +1,0 @@
-name: Composer PHPUnit
-description: Composer PHPUnit
-
-runs:
-  using: composite
-  steps:
-    - name: Composer PHPUnit
-      shell: bash
-      run: composer phpunit
