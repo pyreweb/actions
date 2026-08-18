@@ -2,24 +2,23 @@ name: PHP CI
 
 on:
   workflow_call:
+    inputs:
+      php-version:
+        description: PHP Version
+        required: true
+        type: string
 
 jobs:
   tests:
-    name: PHP ${{ matrix.php-version }} CI
+    name: PHP ${{ inputs.php-version }} CI
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version:
-          - '8.4'
 
     steps:
       - uses: pyreweb/actions/.github/actions/checkout@main
 
       - uses: pyreweb/actions/.github/actions/setup/php@main
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ inputs.php-version }}
 
       - uses: pyreweb/actions/.github/actions/composer/install@main
 
