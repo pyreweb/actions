@@ -1,9 +1,9 @@
-name: Composer test
-description: Composer test
+name: Tests automatiques
+description: Exécute l’ensemble des tests de l’application et vérifie que chaque fonctionnalité se comporte comme prévu. À lancer avant de valider une modification, pour s’assurer qu’elle n’a rien cassé d’existant.
 
 runs:
   using: composite
   steps:
-    - name: Composer test
+    - name: Lancement de la commande
       shell: bash
       run: composer test

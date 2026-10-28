@@ -1,9 +1,9 @@
-name: Composer Lint
-description: Composer Lint
+name: Relecture automatique
+description: Analyse le code sans l’exécuter pour repérer les erreurs de syntaxe, les écarts de style et les mauvaises pratiques. À lancer pour garder un code propre et homogène, quel que soit le développeur qui l’a écrit.
 
 runs:
   using: composite
   steps:
-    - name: Run the command
+    - name: Lancement de la commande
       shell: bash
       run: composer lint

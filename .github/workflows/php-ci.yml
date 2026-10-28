@@ -1,16 +1,16 @@
-name: PHP CI
+name: Intégration continue - PHP
 
 on:
   workflow_call:
     inputs:
       php-version:
-        description: PHP Version
+        description: Version PHP de l'intégration continue
         required: true
         type: string
 
 jobs:
   tests:
-    name: PHP ${{ inputs.php-version }} CI
+    name: Intégration continue - PHP ${{ inputs.php-version }}
     runs-on: ubuntu-latest
 
     steps:
@@ -23,3 +23,5 @@ jobs:
       - uses: pyreweb/actions/.github/actions/composer/install@main
 
       - uses: pyreweb/actions/.github/actions/composer/test@main
+
+      - uses: pyreweb/actions/.github/actions/composer/lint@main
