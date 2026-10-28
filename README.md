@@ -6,4 +6,4 @@
 - [Génération de version automatique](.github/workflows/github-release.yml)
 - [Relecture automatique pour Laravel](.github/workflows/laravel-lint.yml)
 - [Tests automatiques pour Laravel](.github/workflows/laravel-tests.yml)
-- [Intégration continue - PHP](.github/workflows/php-ci.yml)
+- [PHP / Intégration continue](.github/workflows/php-continuous-integration.yml)

@@ -1,4 +1,5 @@
-name: Intégration continue - PHP
+name: PHP / Intégration continue
+description: Intégration continue pour les projets PHP.
 
 on:
   workflow_call:
@@ -10,7 +11,7 @@ on:
 
 jobs:
   tests:
-    name: Intégration continue - PHP ${{ inputs.php-version }}
+    name: PHP ${{ inputs.php-version }} / Intégration continue
     runs-on: ubuntu-latest
 
     steps:
