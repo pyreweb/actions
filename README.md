@@ -1,9 +1,9 @@
-# pyreweb/actions
+# Actions GitHub
 
-## Workflows
+## Flux automatiques
 
-- [Dependencies update](https://github.com/pyreweb/actions/blob/main/.github/workflows/dependencies-update.yml)
-- [GitHub Release](https://github.com/pyreweb/actions/blob/main/.github/workflows/github-release.yml)
-- [Laravel Lint](https://github.com/pyreweb/actions/blob/main/.github/workflows/laravel-lint.yml)
-- [Laravel Tests](https://github.com/pyreweb/actions/blob/main/.github/workflows/laravel-tests.yml)
-- [PHP CI](https://github.com/pyreweb/actions/blob/main/.github/workflows/php-ci.yml)
+- [Mise à jour automatique des dépendances](.github/workflows/dependencies-update.yml)
+- [Génération de version automatique](.github/workflows/github-release.yml)
+- [Relecture automatique pour Laravel](.github/workflows/laravel-lint.yml)
+- [Tests automatiques pour Laravel](.github/workflows/laravel-tests.yml)
+- [Intégration continue - PHP](.github/workflows/php-ci.yml)
