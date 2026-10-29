@@ -7,11 +7,6 @@ on:
         description: Version PHP de l'intégration continue
         required: true
         type: string
-      activate-composer-install:
-        description: Active l'installation des dépendances Composer
-        required: false
-        type: boolean
-        default: true
       activate-composer-test:
         description: Active les tests automatiques
         required: false
@@ -76,7 +71,6 @@ jobs:
           php-version: ${{ inputs.php-version }}
 
       - uses: pyreweb/actions/.github/actions/composer/install@main
-        if: ${{ inputs.activate-composer-install }}
 
       - uses: pyreweb/actions/.github/actions/composer/test@main
         if: ${{ inputs.activate-composer-test }}
