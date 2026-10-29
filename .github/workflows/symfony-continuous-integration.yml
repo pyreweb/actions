@@ -22,6 +22,11 @@ on:
         required: false
         type: boolean
         default: true
+      activate-cache-warmup:
+        description: Active le préchauffage du cache en production
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   tests:
@@ -53,3 +58,6 @@ jobs:
 
       - uses: pyreweb/actions/.github/actions/symfony/doctrine/schema/validate@main
         if: ${{ inputs.activate-doctrine-schema-validate }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/cache/warmup@main
+        if: ${{ inputs.activate-cache-warmup }}

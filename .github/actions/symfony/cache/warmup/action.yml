@@ -1,0 +1,9 @@
+name: Symfony / Préchauffage du cache
+description: Construit le cache de l’application dans l’environnement de production, en compilant notamment le conteneur de services, les routes et les templates. À lancer pour vérifier que l’application démarre correctement en production avant de la déployer.
+
+runs:
+  using: composite
+  steps:
+    - name: Lancement de la commande
+      shell: bash
+      run: php bin/console cache:warmup --env=prod
