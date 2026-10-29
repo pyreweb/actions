@@ -7,6 +7,31 @@ on:
         description: Version PHP de l'intégration continue
         required: true
         type: string
+      activate-composer-install:
+        description: Active l'installation des dépendances Composer
+        required: false
+        type: boolean
+        default: true
+      activate-composer-test:
+        description: Active les tests automatiques
+        required: false
+        type: boolean
+        default: true
+      activate-composer-lint:
+        description: Active la relecture automatique
+        required: false
+        type: boolean
+        default: true
+      activate-lint-yaml:
+        description: Active la relecture des fichiers YAML
+        required: false
+        type: boolean
+        default: true
+      activate-lint-container:
+        description: Active la relecture du conteneur de services
+        required: false
+        type: boolean
+        default: true
       activate-lint-twig:
         description: Active la relecture des templates Twig
         required: false
@@ -51,14 +76,19 @@ jobs:
           php-version: ${{ inputs.php-version }}
 
       - uses: pyreweb/actions/.github/actions/composer/install@main
+        if: ${{ inputs.activate-composer-install }}
 
       - uses: pyreweb/actions/.github/actions/composer/test@main
+        if: ${{ inputs.activate-composer-test }}
 
       - uses: pyreweb/actions/.github/actions/composer/lint@main
+        if: ${{ inputs.activate-composer-lint }}
 
       - uses: pyreweb/actions/.github/actions/symfony/lint/yaml@main
+        if: ${{ inputs.activate-lint-yaml }}
 
       - uses: pyreweb/actions/.github/actions/symfony/lint/container@main
+        if: ${{ inputs.activate-lint-container }}
 
       - uses: pyreweb/actions/.github/actions/symfony/lint/twig@main
         if: ${{ inputs.activate-lint-twig }}
