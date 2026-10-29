@@ -7,6 +7,11 @@ on:
         description: Version PHP de l'intégration continue
         required: true
         type: string
+      activate-lint-twig:
+        description: Active la relecture des templates Twig
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   tests:
@@ -31,3 +36,4 @@ jobs:
       - uses: pyreweb/actions/.github/actions/symfony/lint/container@main
 
       - uses: pyreweb/actions/.github/actions/symfony/lint/twig@main
+        if: ${{ inputs.activate-lint-twig }}
