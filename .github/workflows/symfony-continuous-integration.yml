@@ -12,6 +12,11 @@ on:
         required: false
         type: boolean
         default: true
+      activate-lint-xliff:
+        description: Active la relecture des fichiers de traduction XLIFF
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   tests:
@@ -37,3 +42,6 @@ jobs:
 
       - uses: pyreweb/actions/.github/actions/symfony/lint/twig@main
         if: ${{ inputs.activate-lint-twig }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/lint/xliff@main
+        if: ${{ inputs.activate-lint-xliff }}
