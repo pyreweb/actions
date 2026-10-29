@@ -7,3 +7,7 @@
 - [Relecture automatique pour Laravel](.github/workflows/laravel-lint.yml)
 - [Tests automatiques pour Laravel](.github/workflows/laravel-tests.yml)
 - [PHP / Intégration continue](.github/workflows/php-continuous-integration.yml)
+
+## Feuille de route
+
+La feuille de route est disponible ici : [`ROADMAP.MD`](ROADMAP.md).

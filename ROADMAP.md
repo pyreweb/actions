@@ -2,12 +2,15 @@
 
 ## Nouveautés
 
-- Aucun élément pour le moment.
+- Création du workflow `symfony-continuous-integration` qui utilise le workflow `php-continuous-integration`.
+- Création du workflow `laravel-continuous-integration` qui utilise le workflow `php-continuous-integration`.
 
 ## Améliorations
 
-- Aucun élément pour le moment.
+- Dans le workflow `php-continuous-integration`, le lint devrait passer avant les tests, et pas le contraire.
+- Dans le workflow `php-continuous-integration`, il manque un cache composer.
+- Dans le workflow `php-continuous-integration`, il manque les permissions.
 
 ## Corrections
 
-- Aucun élément pour le moment.
+- Dans le workflow `php-continuous-integration`, la clé description n'existe pas, il faut la supprimer.
