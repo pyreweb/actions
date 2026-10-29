@@ -17,6 +17,11 @@ on:
         required: false
         type: boolean
         default: true
+      activate-doctrine-schema-validate:
+        description: Active la validation du schéma Doctrine
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   tests:
@@ -45,3 +50,6 @@ jobs:
 
       - uses: pyreweb/actions/.github/actions/symfony/lint/xliff@main
         if: ${{ inputs.activate-lint-xliff }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/doctrine/schema/validate@main
+        if: ${{ inputs.activate-doctrine-schema-validate }}

@@ -1,0 +1,9 @@
+name: Symfony / Validation du schéma Doctrine
+description: Vérifie que le mapping des entités Doctrine est cohérent, en contrôlant notamment les relations entre entités et leurs associations inverses, sans se connecter à la base de données. À lancer pour repérer une erreur de mapping avant qu’elle ne provoque un comportement inattendu.
+
+runs:
+  using: composite
+  steps:
+    - name: Lancement de la commande
+      shell: bash
+      run: php bin/console doctrine:schema:validate --skip-sync
