@@ -1,0 +1,103 @@
+name: Symfony / Intégration continue
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: Version PHP de l'intégration continue
+        required: true
+        type: string
+      activate-composer-test:
+        description: Active les tests automatiques
+        required: false
+        type: boolean
+        default: true
+      activate-composer-lint:
+        description: Active la relecture automatique
+        required: false
+        type: boolean
+        default: true
+      activate-lint-yaml:
+        description: Active la relecture des fichiers YAML
+        required: false
+        type: boolean
+        default: true
+      activate-lint-container:
+        description: Active la relecture du conteneur de services
+        required: false
+        type: boolean
+        default: true
+      activate-lint-twig:
+        description: Active la relecture des templates Twig
+        required: false
+        type: boolean
+        default: true
+      activate-lint-xliff:
+        description: Active la relecture des fichiers de traduction XLIFF
+        required: false
+        type: boolean
+        default: true
+      activate-doctrine-schema-validate:
+        description: Active la validation du schéma Doctrine
+        required: false
+        type: boolean
+        default: true
+      activate-cache-warmup:
+        description: Active le préchauffage du cache en production
+        required: false
+        type: boolean
+        default: true
+      activate-composer-audit:
+        description: Active l'audit de sécurité des dépendances Composer
+        required: false
+        type: boolean
+        default: true
+      activate-importmap-audit:
+        description: Active l'audit de sécurité des dépendances JavaScript de l'importmap
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  tests:
+    name: PHP ${{ inputs.php-version }} / Intégration continue
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: pyreweb/actions/.github/actions/checkout@main
+
+      - uses: pyreweb/actions/.github/actions/setup/php@main
+        with:
+          php-version: ${{ inputs.php-version }}
+
+      - uses: pyreweb/actions/.github/actions/composer/install@main
+
+      - uses: pyreweb/actions/.github/actions/composer/test@main
+        if: ${{ inputs.activate-composer-test }}
+
+      - uses: pyreweb/actions/.github/actions/composer/lint@main
+        if: ${{ inputs.activate-composer-lint }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/lint/yaml@main
+        if: ${{ inputs.activate-lint-yaml }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/lint/container@main
+        if: ${{ inputs.activate-lint-container }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/lint/twig@main
+        if: ${{ inputs.activate-lint-twig }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/lint/xliff@main
+        if: ${{ inputs.activate-lint-xliff }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/doctrine/schema/validate@main
+        if: ${{ inputs.activate-doctrine-schema-validate }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/cache/warmup@main
+        if: ${{ inputs.activate-cache-warmup }}
+
+      - uses: pyreweb/actions/.github/actions/composer/audit@main
+        if: ${{ inputs.activate-composer-audit }}
+
+      - uses: pyreweb/actions/.github/actions/symfony/importmap/audit@main
+        if: ${{ inputs.activate-importmap-audit }}

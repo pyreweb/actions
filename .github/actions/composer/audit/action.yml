@@ -1,0 +1,9 @@
+name: Audit de sécurité
+description: Vérifie que les dépendances installées avec Composer ne présentent pas de faille de sécurité connue et ne sont pas abandonnées. À lancer pour repérer une dépendance à mettre à jour ou à remplacer avant qu’elle ne fragilise l’application.
+
+runs:
+  using: composite
+  steps:
+    - name: Lancement de la commande
+      shell: bash
+      run: composer audit

@@ -1,0 +1,9 @@
+name: Symfony / Relecture des fichiers de traduction XLIFF
+description: Vérifie la syntaxe des fichiers de traduction XLIFF, en contrôlant notamment leur structure et la langue déclarée. À lancer pour repérer une erreur dans une traduction avant qu’elle ne s’affiche mal dans l’application.
+
+runs:
+  using: composite
+  steps:
+    - name: Lancement de la commande
+      shell: bash
+      run: php bin/console lint:xliff translations
