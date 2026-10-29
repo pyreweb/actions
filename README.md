@@ -9,6 +9,7 @@ L’objectif est double. D’un côté, garantir des pipelines homogènes, quel 
 ### Intégrations continues
 
 - [PHP](.github/workflows/php-continuous-integration.yml)
+- [Symfony](.github/workflows/symfony-continuous-integration.yml)
 
 ### Autres
 

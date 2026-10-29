@@ -1,0 +1,16 @@
+name: Symfony / Intégration continue
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: Version PHP de l'intégration continue
+        required: true
+        type: string
+
+jobs:
+  php:
+    name: Symfony
+    uses: pyreweb/actions/.github/workflows/php-continuous-integration.yml@main
+    with:
+      php-version: ${{ inputs.php-version }}

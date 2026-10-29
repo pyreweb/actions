@@ -2,7 +2,6 @@
 
 ## Nouveautés
 
-- Création du workflow `symfony-continuous-integration` qui utilise le workflow `php-continuous-integration`.
 - Création du workflow `laravel-continuous-integration` qui utilise le workflow `php-continuous-integration`.
 
 ## Améliorations
