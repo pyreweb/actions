@@ -1,35 +1,35 @@
 name: pyreweb/laravel/tests
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  job:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.4', '8.5']
+    job:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-version: ['8.4', '8.5']
 
-    steps:
-      - uses: pyreweb/actions/.github/actions/checkout@main
+        steps:
+            - uses: pyreweb/actions/.github/actions/checkout@main
 
-      - uses: pyreweb/actions/.github/actions/setup/php@main
-        with:
-          php-version: ${{ matrix.php-version }}
+            - uses: pyreweb/actions/.github/actions/setup/php@main
+              with:
+                  php-version: ${{ matrix.php-version }}
 
-      - uses: pyreweb/actions/.github/actions/setup/node@main
+            - uses: pyreweb/actions/.github/actions/setup/node@main
 
-      - uses: pyreweb/actions/.github/actions/composer/install@main
+            - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/actions/.github/actions/npm/install@main
-      
-      - name: Copy .env
-        run: cp .env.example .env
+            - uses: pyreweb/actions/.github/actions/npm/install@main
 
-      - name: Generate key
-        run: php artisan key:generate
+            - name: Copy .env
+              run: cp .env.example .env
 
-      - uses: pyreweb/actions/.github/actions/npm/build@main
+            - name: Generate key
+              run: php artisan key:generate
 
-      - name: Run tests
-        run: ./vendor/bin/pest
+            - uses: pyreweb/actions/.github/actions/npm/build@main
+
+            - name: Run tests
+              run: ./vendor/bin/pest

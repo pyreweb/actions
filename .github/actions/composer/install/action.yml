@@ -2,8 +2,8 @@ name: Composer install
 description: Composer install
 
 runs:
-  using: composite
-  steps:
-    - name: Composer install
-      shell: bash
-      run: composer install --no-interaction --prefer-dist --optimize-autoloader
+    using: composite
+    steps:
+        - name: Composer install
+          shell: bash
+          run: composer install --no-interaction --prefer-dist --optimize-autoloader

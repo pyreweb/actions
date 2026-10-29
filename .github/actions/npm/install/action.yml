@@ -2,8 +2,8 @@ name: NPM install
 description: NPM install
 
 runs:
-  using: composite
-  steps:
-    - name: NPM install
-      shell: bash
-      run: npm install
+    using: composite
+    steps:
+        - name: NPM install
+          shell: bash
+          run: npm install

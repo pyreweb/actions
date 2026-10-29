@@ -2,31 +2,31 @@ name: Chore Deps Update
 description: Chore Deps Update
 
 inputs:
-  github-token:
-    description: GitHub Token
-    required: true
-  github-run-id:
-    description: GitHub Run ID
-    required: true
+    github-token:
+        description: GitHub Token
+        required: true
+    github-run-id:
+        description: GitHub Run ID
+        required: true
 
 runs:
-  using: composite
-  steps:
-    - name: Creation of the pull request
-      uses: peter-evans/create-pull-request@v8
-      with:
-        token: ${{ inputs.github-token }}
-        commit-message: "update: `dependencies`"
-        committer: GitHub <noreply@github.com>
-        author: GitHub Actions <actions@github.com>
-        branch: github-action/update-dependencies
-        delete-branch: true
-        title: "Update dependencies (`composer` & `npm`)"
-        body: |
-          **ID**: ${{ inputs.github-run-id }}
-        labels: |
-          github-action
-          update
-          dependencie
-          composer
-          npm
+    using: composite
+    steps:
+        - name: Creation of the pull request
+          uses: peter-evans/create-pull-request@v8
+          with:
+              token: ${{ inputs.github-token }}
+              commit-message: 'update: `dependencies`'
+              committer: GitHub <noreply@github.com>
+              author: GitHub Actions <actions@github.com>
+              branch: github-action/update-dependencies
+              delete-branch: true
+              title: 'Update dependencies (`composer` & `npm`)'
+              body: |
+                  **ID**: ${{ inputs.github-run-id }}
+              labels: |
+                  github-action
+                  update
+                  dependencie
+                  composer
+                  npm

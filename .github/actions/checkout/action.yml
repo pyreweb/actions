@@ -2,7 +2,7 @@ name: Checkout
 description: Checkout
 
 runs:
-  using: composite
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v6
+    using: composite
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v6

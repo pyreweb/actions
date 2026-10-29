@@ -2,27 +2,27 @@ name: PHP / Intégration continue
 description: Intégration continue pour les projets PHP.
 
 on:
-  workflow_call:
-    inputs:
-      php-version:
-        description: Version PHP de l'intégration continue
-        required: true
-        type: string
+    workflow_call:
+        inputs:
+            php-version:
+                description: Version PHP de l'intégration continue
+                required: true
+                type: string
 
 jobs:
-  tests:
-    name: PHP ${{ inputs.php-version }} / Intégration continue
-    runs-on: ubuntu-latest
+    tests:
+        name: PHP ${{ inputs.php-version }} / Intégration continue
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: pyreweb/actions/.github/actions/checkout@main
+        steps:
+            - uses: pyreweb/actions/.github/actions/checkout@main
 
-      - uses: pyreweb/actions/.github/actions/setup/php@main
-        with:
-          php-version: ${{ inputs.php-version }}
+            - uses: pyreweb/actions/.github/actions/setup/php@main
+              with:
+                  php-version: ${{ inputs.php-version }}
 
-      - uses: pyreweb/actions/.github/actions/composer/install@main
+            - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/actions/.github/actions/composer/test@main
+            - uses: pyreweb/actions/.github/actions/composer/test@main
 
-      - uses: pyreweb/actions/.github/actions/composer/lint@main
+            - uses: pyreweb/actions/.github/actions/composer/lint@main

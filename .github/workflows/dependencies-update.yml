@@ -2,69 +2,69 @@ name: Update dependencies
 description: NPM + Composer
 
 on:
-  workflow_call:
+    workflow_call:
 
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    pull-requests: write
 
 jobs:
-  update:
-    name: Update dependencies
-    runs-on: ubuntu-latest
+    update:
+        name: Update dependencies
+        runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        php:
-          - '8.5'
+        strategy:
+            fail-fast: false
+            matrix:
+                php:
+                    - '8.5'
 
-    steps:
-      - uses: pyreweb/actions/.github/actions/checkout@main
-      
-      - uses: pyreweb/actions/.github/actions/setup/php@main
-        with:
-          php-version: ${{ matrix.php }}
+        steps:
+            - uses: pyreweb/actions/.github/actions/checkout@main
 
-      - uses: pyreweb/actions/.github/actions/setup/node@main
+            - uses: pyreweb/actions/.github/actions/setup/php@main
+              with:
+                  php-version: ${{ matrix.php }}
 
-      - name: Restoring the Composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+            - uses: pyreweb/actions/.github/actions/setup/node@main
 
-      - name: Composer Caching
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+            - name: Restoring the Composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Creating the .env file
-        run: cp .env.example .env
+            - name: Composer Caching
+              uses: actions/cache@v5
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-composer-
 
-      - uses: pyreweb/actions/.github/actions/composer/install@main
+            - name: Creating the .env file
+              run: cp .env.example .env
 
-      - uses: pyreweb/actions/.github/actions/npm/ci@main
+            - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/actions/.github/actions/composer/update@main
+            - uses: pyreweb/actions/.github/actions/npm/ci@main
 
-      - uses: pyreweb/actions/.github/actions/npm/update@main
+            - uses: pyreweb/actions/.github/actions/composer/update@main
 
-      - uses: pyreweb/actions/.github/actions/npm/build@main
+            - uses: pyreweb/actions/.github/actions/npm/update@main
 
-      - name: Generating the application key
-        run: php artisan key:generate
+            - uses: pyreweb/actions/.github/actions/npm/build@main
 
-      - name: Backend testing
-        run: php artisan test
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: ':memory:'
+            - name: Generating the application key
+              run: php artisan key:generate
 
-      - uses: pyreweb/actions/.github/actions/npm/test@main
+            - name: Backend testing
+              run: php artisan test
+              env:
+                  DB_CONNECTION: sqlite
+                  DB_DATABASE: ':memory:'
 
-      - uses: pyreweb/actions/.github/actions/pull-request/chore-deps-update@main
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-run-id: ${{ github.run_id }}
+            - uses: pyreweb/actions/.github/actions/npm/test@main
+
+            - uses: pyreweb/actions/.github/actions/pull-request/chore-deps-update@main
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  github-run-id: ${{ github.run_id }}

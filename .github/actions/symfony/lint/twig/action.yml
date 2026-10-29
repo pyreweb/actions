@@ -2,8 +2,8 @@ name: Symfony / Relecture des templates Twig
 description: Vérifie la syntaxe des templates Twig, en contrôlant notamment les balises, les filtres et les fonctions utilisés. À lancer pour repérer une erreur dans un template avant qu’elle ne casse l’affichage d’une page.
 
 runs:
-  using: composite
-  steps:
-    - name: Lancement de la commande
-      shell: bash
-      run: php bin/console lint:twig templates
+    using: composite
+    steps:
+        - name: Lancement de la commande
+          shell: bash
+          run: php bin/console lint:twig templates

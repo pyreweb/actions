@@ -2,8 +2,8 @@ name: NPM update
 description: NPM update
 
 runs:
-  using: composite
-  steps:
-    - name: NPM update
-      shell: bash
-      run: npm update
+    using: composite
+    steps:
+        - name: NPM update
+          shell: bash
+          run: npm update

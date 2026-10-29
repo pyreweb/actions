@@ -2,8 +2,8 @@ name: Composer update
 description: Composer update
 
 runs:
-  using: composite
-  steps:
-    - name: Composer update
-      shell: bash
-      run: composer update --no-interaction --prefer-dist --optimize-autoloader
+    using: composite
+    steps:
+        - name: Composer update
+          shell: bash
+          run: composer update --no-interaction --prefer-dist --optimize-autoloader

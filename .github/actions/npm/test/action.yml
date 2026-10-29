@@ -2,8 +2,8 @@ name: NPM test
 description: NPM test
 
 runs:
-  using: composite
-  steps:
-    - name: Run the tests
-      shell: bash
-      run: npm test --if-present
+    using: composite
+    steps:
+        - name: Run the tests
+          shell: bash
+          run: npm test --if-present

@@ -1,94 +1,94 @@
 name: pyreweb/github/release
 
 on:
-  workflow_call:
-    outputs:
-      version:
-        value: ${{ jobs.release.outputs.version }}
+    workflow_call:
+        outputs:
+            version:
+                value: ${{ jobs.release.outputs.version }}
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  release:
-    name: Create the release
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.calver.outputs.NEW_TAG }}
+    release:
+        name: Create the release
+        runs-on: ubuntu-latest
+        outputs:
+            version: ${{ steps.calver.outputs.NEW_TAG }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        php:
-          - '8.5'
+        strategy:
+            fail-fast: false
+            matrix:
+                php:
+                    - '8.5'
 
-    steps:
-      - name: Read the repository
-        uses: pyreweb/actions/.github/actions/checkout@main
+        steps:
+            - name: Read the repository
+              uses: pyreweb/actions/.github/actions/checkout@main
 
-      - name: Configurate PHP ${{ matrix.php }}
-        uses: pyreweb/actions/.github/actions/setup/php@main
-        with:
-          php-version: ${{ matrix.php }}
+            - name: Configurate PHP ${{ matrix.php }}
+              uses: pyreweb/actions/.github/actions/setup/php@main
+              with:
+                  php-version: ${{ matrix.php }}
 
-      - uses: pyreweb/actions/.github/actions/setup/node@main
+            - uses: pyreweb/actions/.github/actions/setup/node@main
 
-      - name: Read cache composer
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+            - name: Read cache composer
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: Create cache composer
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+            - name: Create cache composer
+              uses: actions/cache@v5
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-composer-
 
-      - name: Create .env
-        run: cp .env.example .env
+            - name: Create .env
+              run: cp .env.example .env
 
-      - uses: pyreweb/actions/.github/actions/composer/install@main
+            - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/actions/.github/actions/npm/ci@main
+            - uses: pyreweb/actions/.github/actions/npm/ci@main
 
-      - uses: pyreweb/actions/.github/actions/npm/build@main
+            - uses: pyreweb/actions/.github/actions/npm/build@main
 
-      - name: Generate the key
-        run: php artisan key:generate
+            - name: Generate the key
+              run: php artisan key:generate
 
-      - name: Launch tests
-        run: php artisan test
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: ':memory:'
+            - name: Launch tests
+              run: php artisan test
+              env:
+                  DB_CONNECTION: sqlite
+                  DB_DATABASE: ':memory:'
 
-      - name: Calcul tag
-        id: calver
-        run: |
-          TODAY=$(date +'%Y.%m.%d')
-          LAST_TAG=$(git tag --list "$TODAY.*" --sort=-v:refname | head -n 1)
-          
-          if [ -z "$LAST_TAG" ]; then
-            NEW_TAG="${TODAY}.01"
-          else
-            LAST_INDEX=${LAST_TAG##*.}
-            NEW_TAG="${TODAY}.$(printf "%02d" $((10#$LAST_INDEX + 1)))"
-          fi
-          
-          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
-          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
+            - name: Calcul tag
+              id: calver
+              run: |
+                  TODAY=$(date +'%Y.%m.%d')
+                  LAST_TAG=$(git tag --list "$TODAY.*" --sort=-v:refname | head -n 1)
 
-      - name: Create archive
-        run: zip -rq release-${{ env.NEW_TAG }}.zip . -x "*.git*" "node_modules/*" "tests/*"
+                  if [ -z "$LAST_TAG" ]; then
+                    NEW_TAG="${TODAY}.01"
+                  else
+                    LAST_INDEX=${LAST_TAG##*.}
+                    NEW_TAG="${TODAY}.$(printf "%02d" $((10#$LAST_INDEX + 1)))"
+                  fi
 
-      - name: Create release
-        uses: softprops/action-gh-release@v3
-        with:
-          tag_name: ${{ env.NEW_TAG }}
-          name: v${{ env.NEW_TAG }}
-          generate_release_notes: true
-          make_latest: true
-          files: release-${{ env.NEW_TAG }}.zip
-          body: |
-            **ID**: ${{ github.run_id }}
+                  echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+                  echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
+
+            - name: Create archive
+              run: zip -rq release-${{ env.NEW_TAG }}.zip . -x "*.git*" "node_modules/*" "tests/*"
+
+            - name: Create release
+              uses: softprops/action-gh-release@v3
+              with:
+                  tag_name: ${{ env.NEW_TAG }}
+                  name: v${{ env.NEW_TAG }}
+                  generate_release_notes: true
+                  make_latest: true
+                  files: release-${{ env.NEW_TAG }}.zip
+                  body: |
+                      **ID**: ${{ github.run_id }}

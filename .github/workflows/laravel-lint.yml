@@ -1,33 +1,33 @@
 name: pyreweb/laravel/linter
 
 on:
-  workflow_call:
+    workflow_call:
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  job:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.4', '8.5']
+    job:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-version: ['8.4', '8.5']
 
-    steps:
-      - uses: pyreweb/actions/.github/actions/checkout@main
+        steps:
+            - uses: pyreweb/actions/.github/actions/checkout@main
 
-      - uses: pyreweb/actions/.github/actions/setup/php@main
-        with:
-          php-version: ${{ matrix.php-version }}
+            - uses: pyreweb/actions/.github/actions/setup/php@main
+              with:
+                  php-version: ${{ matrix.php-version }}
 
-      - uses: pyreweb/actions/.github/actions/setup/node@main
+            - uses: pyreweb/actions/.github/actions/setup/node@main
 
-      - uses: pyreweb/actions/.github/actions/composer/install@main
+            - uses: pyreweb/actions/.github/actions/composer/install@main
 
-      - uses: pyreweb/actions/.github/actions/npm/install@main
+            - uses: pyreweb/actions/.github/actions/npm/install@main
 
-      - uses: pyreweb/actions/.github/actions/composer/lint@main
+            - uses: pyreweb/actions/.github/actions/composer/lint@main
 
-      - uses: pyreweb/actions/.github/actions/npm/format@main
+            - uses: pyreweb/actions/.github/actions/npm/format@main
 
-      - uses: pyreweb/actions/.github/actions/npm/lint@main
+            - uses: pyreweb/actions/.github/actions/npm/lint@main
