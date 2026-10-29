@@ -27,6 +27,11 @@ on:
         required: false
         type: boolean
         default: true
+      activate-composer-audit:
+        description: Active l'audit de sécurité des dépendances Composer
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   tests:
@@ -61,3 +66,6 @@ jobs:
 
       - uses: pyreweb/actions/.github/actions/symfony/cache/warmup@main
         if: ${{ inputs.activate-cache-warmup }}
+
+      - uses: pyreweb/actions/.github/actions/composer/audit@main
+        if: ${{ inputs.activate-composer-audit }}
