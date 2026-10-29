@@ -26,4 +26,6 @@ jobs:
 
       - uses: pyreweb/actions/.github/actions/composer/lint@main
 
+      - uses: pyreweb/actions/.github/actions/symfony/lint/yaml@main
+
       - uses: pyreweb/actions/.github/actions/symfony/lint/container@main
