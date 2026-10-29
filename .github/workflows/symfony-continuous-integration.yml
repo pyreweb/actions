@@ -9,14 +9,8 @@ on:
         type: string
 
 jobs:
-  php:
-    name: Symfony
-    uses: pyreweb/actions/.github/workflows/php-continuous-integration.yml@main
-    with:
-      php-version: ${{ inputs.php-version }}
-
-  container:
-    name: PHP ${{ inputs.php-version }} / Relecture du conteneur de services
+  tests:
+    name: PHP ${{ inputs.php-version }} / Intégration continue
     runs-on: ubuntu-latest
 
     steps:
@@ -27,5 +21,9 @@ jobs:
           php-version: ${{ inputs.php-version }}
 
       - uses: pyreweb/actions/.github/actions/composer/install@main
+
+      - uses: pyreweb/actions/.github/actions/composer/test@main
+
+      - uses: pyreweb/actions/.github/actions/composer/lint@main
 
       - uses: pyreweb/actions/.github/actions/symfony/lint/container@main
