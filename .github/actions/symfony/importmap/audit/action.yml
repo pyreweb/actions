@@ -1,0 +1,9 @@
+name: Symfony / Audit de sécurité des dépendances JavaScript
+description: Vérifie que les dépendances JavaScript déclarées dans l’importmap d’AssetMapper ne présentent pas de faille de sécurité connue. À lancer pour repérer une dépendance à mettre à jour avant qu’elle ne fragilise l’application.
+
+runs:
+  using: composite
+  steps:
+    - name: Lancement de la commande
+      shell: bash
+      run: php bin/console importmap:audit
