@@ -1,4 +1,4 @@
-name: Relecture du conteneur de services
+name: Symfony / Relecture du conteneur de services
 description: Vérifie que la configuration des services Symfony est valide, en contrôlant notamment les arguments injectés, leurs types et les services manquants. À lancer pour détecter une erreur de configuration avant qu’elle ne casse l’application.
 
 runs:

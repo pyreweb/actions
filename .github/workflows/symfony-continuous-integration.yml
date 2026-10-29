@@ -14,3 +14,18 @@ jobs:
     uses: pyreweb/actions/.github/workflows/php-continuous-integration.yml@main
     with:
       php-version: ${{ inputs.php-version }}
+
+  container:
+    name: PHP ${{ inputs.php-version }} / Relecture du conteneur de services
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: pyreweb/actions/.github/actions/checkout@main
+
+      - uses: pyreweb/actions/.github/actions/setup/php@main
+        with:
+          php-version: ${{ inputs.php-version }}
+
+      - uses: pyreweb/actions/.github/actions/composer/install@main
+
+      - uses: pyreweb/actions/.github/actions/symfony/lint/container@main
