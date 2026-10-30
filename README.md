@@ -20,12 +20,12 @@ L’objectif est double. D’un côté, garantir des pipelines homogènes, quel 
 
 ## Feuille de route
 
-La feuille de route est disponible ici : [`ROADMAP.MD`](ROADMAP.md).
+Disponible ici : [`ROADMAP.MD`](ROADMAP.md).
 
 ## Licence
 
-La licence est disponible ici : [`LICENSE.md`](LICENSE.md).
+Disponible ici : [`LICENSE.md`](LICENSE.md).
 
 ## Auteurs
 
-Les auteurs sont disponibles ici : [`AUTHORS.md`](AUTHORS.md).
+Disponible ici : [`AUTHORS.md`](AUTHORS.md).
