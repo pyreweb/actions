@@ -6,7 +6,6 @@
 
 ## Améliorations
 
-- Dans le workflow `php-continuous-integration`, le lint devrait passer avant les tests, et pas le contraire.
 - Dans le workflow `php-continuous-integration`, il manque un cache composer.
 - Dans le workflow `php-continuous-integration`, il manque les permissions.
 
