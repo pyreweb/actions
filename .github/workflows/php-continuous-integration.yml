@@ -1,9 +1,23 @@
 name: PHP / Intégration continue
-description: Intégration continue pour les projets PHP.
 
 on:
     workflow_call:
         inputs:
+            activate-composer-audit:
+                description: Active l'audit de sécurité des dépendances Composer
+                required: false
+                type: boolean
+                default: true
+            activate-composer-lint:
+                description: Active la relecture automatique
+                required: false
+                type: boolean
+                default: true
+            activate-composer-test:
+                description: Active les tests automatiques
+                required: false
+                type: boolean
+                default: true
             php-version:
                 description: Version PHP de l'intégration continue
                 required: true
@@ -23,6 +37,11 @@ jobs:
 
             - uses: pyreweb/actions/.github/actions/composer/install@main
 
+            - uses: pyreweb/actions/.github/actions/composer/audit@main
+              if: ${{ inputs.activate-composer-audit }}
+
             - uses: pyreweb/actions/.github/actions/composer/test@main
+              if: ${{ inputs.activate-composer-test }}
 
             - uses: pyreweb/actions/.github/actions/composer/lint@main
+              if: ${{ inputs.activate-composer-lint }}
