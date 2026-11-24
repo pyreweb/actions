@@ -1,4 +1,4 @@
-# Actions GitHub
+# pyreweb/actions
 
 Ce dépôt est la boîte à outils d’automatisation de Pyréweb pour GitHub. Il part d’un constat simple : les projets PHP, qu’ils soient sous Symfony ou Laravel, répètent presque toujours les mêmes étapes de vérification et de livraison. Plutôt que de copier ces étapes d’un dépôt à l’autre, on les définit ici une seule fois, sous forme de briques réutilisables et de workflows prêts à l’emploi que chaque projet peut appeler en quelques lignes.
 
@@ -8,19 +8,31 @@ L’objectif est double. D’un côté, garantir des pipelines homogènes, quel 
 
 ### Intégrations continues
 
-- [PHP](.github/workflows/php-continuous-integration.yml).
-- [Symfony](.github/workflows/symfony-continuous-integration.yml).
+- [`PHP`](.github/workflows/php-continuous-integration.yml).
+- [`Symfony`](.github/workflows/symfony-continuous-integration.yml).
 
 ### Autres
 
-- [Mise à jour automatique des dépendances](.github/workflows/dependencies-update.yml).
-- [Génération de version automatique](.github/workflows/github-release.yml).
-- [Relecture automatique pour Laravel](.github/workflows/laravel-lint.yml).
-- [Tests automatiques pour Laravel](.github/workflows/laravel-tests.yml).
+- [`Mise à jour automatique des dépendances`](.github/workflows/dependencies-update.yml).
+- [`Génération de version automatique`](.github/workflows/github-release.yml).
+- [`Relecture automatique pour Laravel`](.github/workflows/laravel-lint.yml).
+- [`Tests automatiques pour Laravel`](.github/workflows/laravel-tests.yml).
 
 ## Feuille de route
 
-Disponible ici : [`ROADMAP.MD`](ROADMAP.md).
+Disponible ici : [`ROADMAP.md`](ROADMAP.md).
+
+## Code de conduite
+
+Disponible ici : [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+
+## Guide de contribution
+
+Disponible ici : [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Politique de sécurité
+
+Disponible ici : [`SECURITY.md`](SECURITY.md).
 
 ## Licence
 
