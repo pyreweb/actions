@@ -26,7 +26,30 @@ runs:
               delete-branch: true
               title: 'Mise à jour des dépendances Composer et NPM'
               body: |
-                  **ID**: ${{ inputs.github-run-id }}
+                  ## Mise à jour automatique des dépendances
+
+                  Cette pull request est générée automatiquement par le workflow de mise à jour des dépendances.
+
+                  ### Contenu
+
+                  - Mise à jour des dépendances PHP via `composer update` (`composer.lock`)
+                  - Mise à jour des dépendances JavaScript via `npm update` (`package-lock.json`)
+                  - Aucune modification du code applicatif
+
+                  ### Vérifications avant fusion
+
+                  - [ ] La CI est au vert (tests, analyse statique, build des assets)
+                  - [ ] Les notes de version des mises à jour majeures ont été relues
+                  - [ ] Aucune dépréciation ou rupture de compatibilité Symfony n'est signalée
+                  - [ ] L'application démarre correctement et les parcours principaux fonctionnent
+
+                  ### Informations d'exécution
+
+                  | Élément | Valeur |
+                  | --- | --- |
+                  | ID du run | [${{ inputs.github-run-id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ inputs.github-run-id }}) |
+                  | Dépôt | ${{ github.repository }} |
+                  | Branche de base | `${{ github.event.repository.default_branch }}` |
               labels: |
                   build
                   deps
