@@ -19,7 +19,7 @@ runs:
               commit-message: |
                   build(deps): met à jour les dépendances composer et npm
 
-                  Met à jour les dépendances PHP gérées par composer et les dépendances JavaScript gérées par npm vers leurs dernières versions compatibles, en régénérant les fichiers composer.lock et package-lock.json. Cette mise à jour apporte les correctifs de bugs et de sécurité publiés depuis la dernière synchronisation, sans modifier le code applicatif. Les paquets concernés et leurs versions (ancienne vers nouvelle) sont à détailler ici : composer <paquet> <ancienne version> vers <nouvelle version>, npm <paquet> <ancienne version> vers <nouvelle version>.
+                  Met à jour les dépendances PHP gérées par composer et les dépendances JavaScript gérées par npm vers leurs dernières versions compatibles, en régénérant les fichiers composer.lock et package-lock.json. Cette mise à jour apporte les correctifs de bugs et de sécurité publiés depuis la dernière synchronisation, sans modifier le code applicatif.
               committer: pyreweb2 <support@pyreweb.com>
               author: pyreweb2 <support@pyreweb.com>
               branch: build/met-a-jour-les-dependances-composer-et-npm
