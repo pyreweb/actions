@@ -1,0 +1,15 @@
+{
+	"templates": [
+		"base/ACCESSIBILITY.md",
+		"base/AUTHORS.md",
+		"base/CHANGELOG.md",
+		"base/CODE_OF_CONDUCT.md",
+		"base/CONTRIBUTING.md",
+		"base/GIT_IGNORE.md",
+		"base/LICENSE.md",
+		"base/README.md",
+		"base/ROADMAP.md",
+		"base/SECURITY.md",
+		"claude/CLAUDE.md"
+	]
+}
